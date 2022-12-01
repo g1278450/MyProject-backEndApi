@@ -1,0 +1,16 @@
+server:
+  port: 8004
+  
+spring:
+  application:
+    name: stock-API
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver          #mysql驅動包
+    url: jdbc:mysql://localhost:3306/stock01?useSSL=false #資料庫名稱，請自訂
+    username: root #資料庫帳號，請自訂
+    password: f1278450G #資料庫密碼，請自訂
+    dbcp2:
+      min-idle: 5                                        #資料庫連接池的最小維持連接數
+      initial-size: 5                                    #初始化連接數
+      max-idle: 5                                        #最大連接數
+      max-wait-millis: 200                               #等待連接獲取最大超時時間
