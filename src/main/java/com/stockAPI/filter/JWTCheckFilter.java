@@ -53,9 +53,11 @@ public class JWTCheckFilter extends OncePerRequestFilter {
 
 			Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, stockUser.getAuthorities());
 			SecurityContextHolder.getContext().setAuthentication(authentication);
+			
 		}
-
+		
 		filterChain.doFilter(request, response);
+		
 
 	}
 

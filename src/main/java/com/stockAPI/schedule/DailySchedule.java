@@ -20,13 +20,13 @@ public class DailySchedule {
 	 @Scheduled(cron = "0 0 17 * * ?")
 //	 @Scheduled(fixedDelay = 5000)
 	 public void saveDailyTranctionStockData() {
-		 tWSIOpenService.schedule_AddDailyTranctionStockData();
+		 tWSIOpenService.addStockData();
 		 logger.info("上市個股日成交資訊-存入 下午五點寫入");
 	 }
 	 
 	 @Scheduled(fixedDelay = 5000)
 	 public void testTask() {
-	 logger.info("測試定時任務");
+//	 logger.info("測試定時任務");
 	 }
 
 }

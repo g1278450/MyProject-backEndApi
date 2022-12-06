@@ -12,7 +12,7 @@ import com.stockAPI.model.User;
 import com.stockAPI.repository.UserRepository;
 
 @Service
-public class StockUserService implements UserDetailsService {
+public class UserInfoService implements UserDetailsService {
 
 	@Autowired
 	UserRepository userRepository;
@@ -23,19 +23,19 @@ public class StockUserService implements UserDetailsService {
 
 	// 目前還沒要用到，先不實作
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userRepository.getDataByAccount(username);
+	public UserDetails loadUserByUsername(String account) throws UsernameNotFoundException {
+		User user = userRepository.getDataByAccount(account);
 		return new StockUser(user);
 
 	}
 
 	public Integer addUser(User user) {
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		Integer user_id = userRepository.add(user);
-		return user_id;
+		Integer userId = userRepository.add(user);
+		return userId;
 	}
 
-	public StockUser getOwnData(String account) {
+	public StockUser getAccountInfo(String account) {
 		User user = userRepository.getDataByAccount(account);
 		// 資料內不可以含有密碼資訊
 		user.setPassword(null);

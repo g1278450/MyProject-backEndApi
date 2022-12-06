@@ -2,18 +2,17 @@ package com.stockAPI.eumsave;
 
 import org.springframework.http.HttpMethod;
 
-public enum TWSIOpenAPIUrl {
+public enum TWSIAPIUrlEum {
 
 	// 證卷交易(exchangeReport)
-	EXCHANGE_REPORT_STOCK_DAY_ALL(1, "exchange_report", HttpMethod.GET,
-			"https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL");
+	EXCHANGE_REPORT_STOCK_DAY_ALL(1, "exchange_report", HttpMethod.GET, "https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL");
 
 	private Integer id;
 	private String type;
 	private HttpMethod method;
 	private String url;
 
-	private TWSIOpenAPIUrl(Integer id, String type, HttpMethod method, String url) {
+	private TWSIAPIUrlEum(Integer id, String type, HttpMethod method, String url) {
 		this.id = id;
 		this.type = type;
 		this.method = method;

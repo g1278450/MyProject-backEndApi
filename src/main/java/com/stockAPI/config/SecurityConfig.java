@@ -12,13 +12,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.stockAPI.filter.JWTCheckFilter;
-import com.stockAPI.service.StockUserService;
+import com.stockAPI.service.UserInfoService;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	StockUserService stockUserService;
+	UserInfoService stockUserService;
 
 	@Autowired
 	JWTCheckFilter jWTCheckFilter;
@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/user/search").hasAnyAuthority("NORMAL","ADMIN")
 				
 				//取得股市資料
-				.antMatchers("user/stock").hasAnyAuthority("NORMAL","ADMIN") 
+				.antMatchers("/stock").hasAnyAuthority("NORMAL","ADMIN") 
 				.and()
 				
 				// 新增過濾器設定

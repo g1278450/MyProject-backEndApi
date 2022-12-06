@@ -3,49 +3,88 @@ package com.stockAPI.model;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.util.Date;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class DailyTranctionStockData {
+@Entity
+@Table(name = "stock_data")
+public class StockInfo {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private Timestamp create_time;
 
+	@Basic
+	@Column(name = "CREATE_TIME")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date create_time;
+
+	@Basic
+	@Column(name = "CODE")
 	@JsonProperty(value = "Code")
 	private String code;
 
+	@Basic
+	@Column(name = "NAME")
 	@JsonProperty(value = "Name")
 	private String name;
 
+	@Basic
+	@Column(name = "TRADE_VOLUME")
 	@JsonProperty(value = "TradeVolume")
 	private Integer trade_volume;
 
+	@Basic
+	@Column(name = "TRADE_VALUE")
 	@JsonProperty(value = "TradeValue")
 	private BigInteger trade_value;
 
+	@Basic
+	@Column(name = "OPENING_PRICE")
 	@JsonProperty(value = "OpeningPrice")
 	private BigDecimal opening_price;
 
+	@Basic
+	@Column(name = "HIGHEST_PRICE")
 	@JsonProperty(value = "HighestPrice")
 	private BigDecimal highest_price;
 
+	@Basic
+	@Column(name = "LOWEST_PRICE")
 	@JsonProperty(value = "LowestPrice")
 	private BigDecimal lowest_price;
 
+	@Basic
+	@Column(name = "CLOSING_PRICE")
 	@JsonProperty(value = "ClosingPrice")
 	private BigDecimal closing_price;
 
+	@Basic
+	@Column(name = "CHANGE_GAP")
 	@JsonProperty(value = "Change")
 	private BigDecimal change_gap;
 
+	@Basic
+	@Column(name = "TRANSACTION_COUNT")
 	@JsonProperty(value = "Transaction")
 	private Integer transaction_count;
 
-	public DailyTranctionStockData() {
+	public StockInfo() {
 
 	}
 
-	public DailyTranctionStockData(Integer id, Timestamp create_time, String code, String name, Integer trade_volume,
+	public StockInfo(Integer id, Timestamp create_time, String code, String name, Integer trade_volume,
 			BigInteger trade_value, BigDecimal opening_price, BigDecimal highest_price, BigDecimal lowest_price,
 			BigDecimal closing_price, BigDecimal change_gap, Integer transaction_count) {
 		super();
@@ -71,11 +110,11 @@ public class DailyTranctionStockData {
 		this.id = id;
 	}
 
-	public Timestamp getCreate_time() {
+	public Date getCreate_time() {
 		return create_time;
 	}
 
-	public void setCreate_time(Timestamp create_time) {
+	public void setCreate_time(Date create_time) {
 		this.create_time = create_time;
 	}
 

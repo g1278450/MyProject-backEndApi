@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.stockAPI.model.DailyTranctionStockData;
+import com.stockAPI.model.StockInfo;
 import com.stockAPI.service.TWSIOpenService;
 
 @SpringBootTest
@@ -19,9 +19,9 @@ class MyProjectStockApiApplicationTests {
 
 	@Test
 	void contextLoads() {
-		DailyTranctionStockData[] resultArray = tWSIOpenService.getDailyTranctionStockData();
+		StockInfo[] resultArray = tWSIOpenService.getDailyTranctionStockData();
 		if (resultArray != null) {
-			for (DailyTranctionStockData data : resultArray) {
+			for (StockInfo data : resultArray) {
 				logger.info("name:" + data.getName());
 			}
 		} else {

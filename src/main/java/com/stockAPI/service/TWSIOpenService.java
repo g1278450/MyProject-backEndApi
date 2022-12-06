@@ -1,32 +1,75 @@
 package com.stockAPI.service;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.stockAPI.eumsave.TWSIOpenAPIUrl;
-import com.stockAPI.model.DailyTranctionStockData;
-import com.stockAPI.repository.DailyTranctionStockDataRepository;
+import com.stockAPI.eumsave.TWSIAPIUrlEum;
+import com.stockAPI.model.StockInfo;
+import com.stockAPI.repository.StockDataRepository;
+import com.stockAPI.repository.StockeDataRepositoryJPA;
 import com.stockAPI.util.TWSIOpenAPIUtil;
 
 @Service
 public class TWSIOpenService {
 
 	@Autowired
-	DailyTranctionStockDataRepository dailyTranctionStockDataRepository;
-
-	public DailyTranctionStockData[] getDailyTranctionStockData() {
-		DailyTranctionStockData[] resultList = TWSIOpenAPIUtil.send(
-				TWSIOpenAPIUrl.EXCHANGE_REPORT_STOCK_DAY_ALL.getUrl(),
-				TWSIOpenAPIUrl.EXCHANGE_REPORT_STOCK_DAY_ALL.getMethod(), DailyTranctionStockData[].class);
-		return resultList;
+	StockDataRepository stockDataRepository;
+	
+	@Autowired
+	StockeDataRepositoryJPA stockeDataRepositoryJPA;
+	
+	/**
+	 * <p>
+	 * 1.從 https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL 取回JSON資料
+	 * 2.組裝成 List
+	 * </p>
+	 * 
+	 * @author anthony
+	 *
+	 */
+	public StockInfo[] getDailyTranctionStockData() {
+		return TWSIOpenAPIUtil.send(TWSIAPIUrlEum.EXCHANGE_REPORT_STOCK_DAY_ALL.getUrl(), TWSIAPIUrlEum.EXCHANGE_REPORT_STOCK_DAY_ALL.getMethod(), StockInfo[].class);
 	}
+	
+	public List<StockInfo> getDailyTranctionStockData2() {
+		StockInfo[] send = TWSIOpenAPIUtil.send(TWSIAPIUrlEum.EXCHANGE_REPORT_STOCK_DAY_ALL.getUrl(), TWSIAPIUrlEum.EXCHANGE_REPORT_STOCK_DAY_ALL.getMethod(), StockInfo[].class);
+		
+		List<StockInfo> stockList = new ArrayList<>();
+		for(int i = 0 ; i<send.length; i++) {
+			StockInfo info = new StockInfo();
+			info.setCode(send[i].getCode());
+			info.setName(send[i].getName());
+			info.setTrade_volume(send[i].getTrade_volume());
+			info.setTrade_value(send[i].getTrade_value());
+			info.setOpening_price(send[i].getOpening_price());
+			info.setHighest_price(send[i].getHighest_price());
+			info.setLowest_price(send[i].getLowest_price());
+			info.setChange_gap(send[i].getChange_gap());
+			info.setClosing_price(send[i].getClosing_price());
+			info.setTransaction_count(send[i].getTransaction_count());
+			info.setCreate_time(new Date());
+			stockList.add(info);
+		}
 
+		return stockList;
+	}
+	
 	// 新增transaction註解可以防止出錯時資料還繼續寫到資料庫內
 	@Transactional(rollbackFor = Exception.class)
-	public void schedule_AddDailyTranctionStockData() {
-		DailyTranctionStockData[] dailyTranctionStockData_array = getDailyTranctionStockData();
-		dailyTranctionStockDataRepository.batchAdd(dailyTranctionStockData_array);
+	public void addStockData() {
+		
+		// NamedParameterJdbcTemplate 組裝SQL
+//		stockDataRepository.batchAdd(getDailyTranctionStockData());
+	
+		// JPA 處理
+		stockeDataRepositoryJPA.saveAll(this.getDailyTranctionStockData2());
+		
 	}
 
 }

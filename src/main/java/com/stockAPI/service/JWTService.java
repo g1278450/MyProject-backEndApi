@@ -26,7 +26,8 @@ public class JWTService {
 	private AuthenticationManager authenticationManager;
 
 	private final String KEY = "StockAPIStockAPIStockAPIStockAPIStockAPIStockAPIStockAPIStockAPI";
-
+	
+	
 	public String generateToken(User user) {
 		
 		// Authentication: spring security 提供的驗證介面，他的功能是
@@ -37,7 +38,7 @@ public class JWTService {
 		StockUser userDetails = (StockUser) authentication.getPrincipal();
 
 		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.MINUTE, 20);
+		calendar.add(Calendar.MINUTE, 1);
 
 		Claims claims = Jwts.claims();
 		claims.put("user_id", userDetails.getUser().getId());

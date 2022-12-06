@@ -1,19 +1,38 @@
 package com.stockAPI.model;
 
-public class User {
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="users")
+public class User {
+	
+	
+	@Id
+	@Column(name="ID")
 	/** 帳戶id-系統給 */
 	private Integer id;
 
+	@Basic
+	@Column(name="ACCOUNT")
 	/** 帳號 */
 	private String account;
-
+	
+	@Basic
+	@Column(name="NAME")
 	/** 名字 */
 	private String name;
-
+	
+	@Basic
+	@Column(name="PASSWORD")
 	/** 密碼 */
 	private String password;
-
+	
+	@Basic
+	@Column(name="AUTHORITY")
 	/** 權限 */
 	private String authority;
 
