@@ -16,8 +16,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.stockAPI.model.StockUser;
 import com.stockAPI.model.User;
+import com.stockAPI.model.entity.UserEntity;
 import com.stockAPI.service.JWTService;
 
 @Component
@@ -40,18 +40,20 @@ public class JWTCheckFilter extends OncePerRequestFilter {
 			
 			System.out.println("accessToken = " + accessToken);
 
-			Map<String, Object> claims = jwtService.parseToken(accessToken);
+			Map<String, Object> loginUser = jwtService.parseToken(accessToken);
 
-			Integer user_id = (Integer) claims.get("user_id");
-			String account = (String) claims.get("account");
-			String name = (String) claims.get("name");
-			String authority = (String) claims.get("authority");
+			Integer userId = (Integer) loginUser.get("user_id");
+			String account = (String) loginUser.get("account");
+			String name = (String) loginUser.get("name");
+			String authority = (String) loginUser.get("authority");
 
-			User user = new User(account, name, null, authority);
-			user.setId(user_id);
-			StockUser stockUser = new StockUser(user);
+			UserEntity userEntity = new UserEntity(account, name, null, authority);
+			userEntity.setId(userId);
+			User user = new User(userEntity);
 
-			Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, stockUser.getAuthorities());
+			Authentication authentication = new UsernamePasswordAuthenticationToken(userEntity, null, user.getAuthorities());
+			
+			// step3. SecurityContextHolder 存放授權成功的 Authentication DTO
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			
 		}

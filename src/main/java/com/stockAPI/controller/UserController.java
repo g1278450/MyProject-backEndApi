@@ -4,15 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.stockAPI.model.ReturnMessage;
-import com.stockAPI.model.StockUser;
+import com.stockAPI.model.RspMessage;
 import com.stockAPI.model.User;
+import com.stockAPI.model.entity.UserEntity;
 import com.stockAPI.service.JWTService;
 import com.stockAPI.service.UserInfoService;
 
@@ -27,20 +26,19 @@ import com.stockAPI.service.UserInfoService;
  * @author anthony
  *
  */
-@CrossOrigin("*")
 @RestController
 @RequestMapping("user")
-public class UserController {
+public class UserController extends BaseController{
 
 	@Autowired
-	UserInfoService stockUserService;
+	UserInfoService userService;
 
 	@Autowired
 	JWTService jWTService;
 
 	@PostMapping("login")
-	public ReturnMessage login(@RequestBody User user) {
-		ReturnMessage result = new ReturnMessage();
+	public RspMessage login(@RequestBody UserEntity user) {
+		RspMessage result = new RspMessage();
 		Map<String, Object> data = new HashMap<>();
 		String token = jWTService.generateToken(user);
 		result.setMessage("登入成功，取得token");
@@ -50,10 +48,10 @@ public class UserController {
 	}
 
 	@PostMapping("search")
-	public ReturnMessage searchMemberInfo(@RequestBody User user) {
-		ReturnMessage result = new ReturnMessage();
+	public RspMessage searchMemberInfo(@RequestBody UserEntity user) {
+		RspMessage result = new RspMessage();
 		Map<String, Object> data = new HashMap<>();
-		StockUser stockUser = stockUserService.getAccountInfo(user.getAccount());
+		User stockUser = userService.getAccountInfo(user.getAccount());
 		data.put("userData", stockUser.getUser());
 		result.setMessage("用戶資料查詢成功");
 		result.setData(data);
@@ -62,10 +60,10 @@ public class UserController {
 	}
 
 	@PostMapping("create")
-	public ReturnMessage add(@RequestBody User user) {
-		ReturnMessage result = new ReturnMessage();
+	public RspMessage add(@RequestBody UserEntity user) {
+		RspMessage result = new RspMessage();
 		Map<String, Object> data = new HashMap<>();
-		Integer userId = stockUserService.addUser(user);
+		Integer userId = userService.addUser(user);
 		data.put("userId", userId);
 		result.setMessage("用戶資料新增成功");
 		result.setData(data);

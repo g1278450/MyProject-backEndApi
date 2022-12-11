@@ -2,9 +2,11 @@ package com.stockAPI.model;
 
 import java.util.Map;
 
-public class ReturnMessage {
+public class RspMessage {
 
 	private String message;
+
+	private Integer errorCode;
 
 	private Map<String, Object> data;
 
@@ -14,6 +16,14 @@ public class ReturnMessage {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public Integer getErrorCode() {
+		return errorCode;
+	}
+
+	public void setErrorCode(Integer errorCode) {
+		this.errorCode = errorCode;
 	}
 
 	public Map<String, Object> getData() {

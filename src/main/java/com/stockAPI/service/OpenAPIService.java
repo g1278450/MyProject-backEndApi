@@ -1,6 +1,5 @@
 package com.stockAPI.service;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,14 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.stockAPI.eumsave.TWSIAPIUrlEum;
-import com.stockAPI.model.StockInfo;
+import com.stockAPI.eumsave.OpenAPIUrlEum;
+import com.stockAPI.model.entity.StockEntity;
 import com.stockAPI.repository.StockDataRepository;
 import com.stockAPI.repository.StockeDataRepositoryJPA;
-import com.stockAPI.util.TWSIOpenAPIUtil;
+import com.stockAPI.util.OpenAPIUtil;
 
 @Service
-public class TWSIOpenService {
+public class OpenAPIService {
 
 	@Autowired
 	StockDataRepository stockDataRepository;
@@ -33,16 +32,16 @@ public class TWSIOpenService {
 	 * @author anthony
 	 *
 	 */
-	public StockInfo[] getDailyTranctionStockData() {
-		return TWSIOpenAPIUtil.send(TWSIAPIUrlEum.EXCHANGE_REPORT_STOCK_DAY_ALL.getUrl(), TWSIAPIUrlEum.EXCHANGE_REPORT_STOCK_DAY_ALL.getMethod(), StockInfo[].class);
+	public StockEntity[] getDailyTranctionStockData() {
+		return OpenAPIUtil.send(OpenAPIUrlEum.EXCHANGE_REPORT_STOCK_DAY_ALL.getUrl(), OpenAPIUrlEum.EXCHANGE_REPORT_STOCK_DAY_ALL.getMethod(), StockEntity[].class);
 	}
 	
-	public List<StockInfo> getDailyTranctionStockData2() {
-		StockInfo[] send = TWSIOpenAPIUtil.send(TWSIAPIUrlEum.EXCHANGE_REPORT_STOCK_DAY_ALL.getUrl(), TWSIAPIUrlEum.EXCHANGE_REPORT_STOCK_DAY_ALL.getMethod(), StockInfo[].class);
+	public List<StockEntity> getDailyTranctionStockData2() {
+		StockEntity[] send = OpenAPIUtil.send(OpenAPIUrlEum.EXCHANGE_REPORT_STOCK_DAY_ALL.getUrl(), OpenAPIUrlEum.EXCHANGE_REPORT_STOCK_DAY_ALL.getMethod(), StockEntity[].class);
 		
-		List<StockInfo> stockList = new ArrayList<>();
+		List<StockEntity> stockList = new ArrayList<>();
 		for(int i = 0 ; i<send.length; i++) {
-			StockInfo info = new StockInfo();
+			StockEntity info = new StockEntity();
 			info.setCode(send[i].getCode());
 			info.setName(send[i].getName());
 			info.setTrade_volume(send[i].getTrade_volume());

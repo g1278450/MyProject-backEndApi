@@ -6,14 +6,13 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Description;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.stockAPI.model.StockInfo;
-import com.stockAPI.model.ReturnMessage;
-import com.stockAPI.service.TWSIOpenService;
+import com.stockAPI.model.RspMessage;
+import com.stockAPI.model.entity.StockEntity;
+import com.stockAPI.service.OpenAPIService;
 
 /**
  * <p>
@@ -26,33 +25,32 @@ import com.stockAPI.service.TWSIOpenService;
  * @author anthony
  *
  */
-@CrossOrigin("*")
 @RestController
 @RequestMapping("stock")
-public class StockController {
+public class StockController extends BaseController{
 
 	@Autowired
-	TWSIOpenService tWSIOpenService;
+	OpenAPIService tWSIOpenService;
 
 	@GetMapping("/search/public/getStockData")
 	@Description("所有權限都可以查")
-	public ReturnMessage getStockData() {
-		ReturnMessage message = new ReturnMessage();
-		Map<String, Object> stockData = new HashMap<>();
+	public RspMessage getStockData() {
+		RspMessage result = new RspMessage();
+		Map<String, Object> stockDataMap = new HashMap<>();
 		
 		// 原生陣列
-		StockInfo[] dailyStockData = tWSIOpenService.getDailyTranctionStockData();
+//		StockEntity[] dailyStockData = tWSIOpenService.getDailyTranctionStockData();
 		
 		// 轉成List 方便JPA to save
-		List<StockInfo> stockDataLists = tWSIOpenService.getDailyTranctionStockData2();
+		List<StockEntity> stockDataLists = tWSIOpenService.getDailyTranctionStockData2();
 		
-		message.setMessage("上市個股日成交資訊-取得成功");
-		stockData.put("dailyStockData", dailyStockData);
-		stockData.put("stockDataLists", stockDataLists);
-		message.setData(stockData);
+		result.setMessage("上市個股日成交資訊-取得成功");
+//		stockData.put("dailyStockData", dailyStockData);
+		stockDataMap.put("stockDataLists", stockDataLists);
+		result.setData(stockDataMap);
 
 		
-		return message;
+		return result;
 	}
 
 }

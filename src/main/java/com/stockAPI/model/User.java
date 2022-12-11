@@ -1,91 +1,73 @@
 package com.stockAPI.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-@Entity
-@Table(name="users")
-public class User {
-	
-	
-	@Id
-	@Column(name="ID")
-	/** 帳戶id-系統給 */
-	private Integer id;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-	@Basic
-	@Column(name="ACCOUNT")
-	/** 帳號 */
-	private String account;
-	
-	@Basic
-	@Column(name="NAME")
-	/** 名字 */
-	private String name;
-	
-	@Basic
-	@Column(name="PASSWORD")
-	/** 密碼 */
-	private String password;
-	
-	@Basic
-	@Column(name="AUTHORITY")
-	/** 權限 */
-	private String authority;
+import com.stockAPI.model.entity.UserEntity;
 
-	// 需加入無參數的建構子，不然BeanRowMapper無法初始化
-	public User() {
+public class User implements UserDetails {
 
+	private static final long serialVersionUID = 1L;
+
+	private UserEntity user;
+
+	public User(UserEntity user) {
+		this.user = user;
 	}
 
-	public User(String account, String name, String password, String authority) {
-		this.account = account;
-		this.name = name;
-		this.password = password;
-		this.authority = authority;
+	public UserEntity getUser() {
+		return user;
 	}
 
-	public Integer getId() {
-		return id;
+	public void setUser(UserEntity user) {
+		this.user = user;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	// 取得此帳號的權限
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
+		authorityList.add(new SimpleGrantedAuthority(user.getAuthority()));
+		return authorityList;
 	}
 
-	public String getAccount() {
-		return account;
-	}
-
-	public void setAccount(String account) {
-		this.account = account;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
+	@Override
 	public String getPassword() {
-		return password;
+		return user.getPassword();
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	@Override
+	public String getUsername() {
+		return user.getAccount();
 	}
 
-	public String getAuthority() {
-		return authority;
+	// 驗證此帳號是否未過期，目前沒有要用到先設return true
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
 	}
 
-	public void setAuthority(String authority) {
-		this.authority = authority;
+	// 驗證此帳號是否未被封鎖，目前沒有要用到先設return true
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	// 驗證此帳號憑證是否未過期，目前沒有要用到先設return true
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	// 驗證此帳號是否可以使用，目前沒有要用到先設return true
+	@Override
+	public boolean isEnabled() {
+		return true;
 	}
 
 }

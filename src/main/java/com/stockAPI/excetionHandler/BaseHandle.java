@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.stockAPI.eumsave.TokenEnum;
-import com.stockAPI.model.ReturnMessage;
+import com.stockAPI.model.RspMessage;
 
 import io.jsonwebtoken.ExpiredJwtException;
 
@@ -21,26 +21,28 @@ public class BaseHandle {
 
 	// 登入驗證錯誤
 	@ExceptionHandler(UsernameNotFoundException.class)
-	public ResponseEntity<ReturnMessage> usernameNotFoundException(UsernameNotFoundException e) {
-		ReturnMessage messages = new ReturnMessage();
+	public ResponseEntity<RspMessage> usernameNotFoundException(UsernameNotFoundException e) {
+		RspMessage messages = new RspMessage();
 		messages.setMessage(e.getMessage());
 		return new ResponseEntity<>(messages, HttpStatus.FORBIDDEN);
 	}
 
 	// token過期
 	@ExceptionHandler(ExpiredJwtException.class)
-	public ResponseEntity<ReturnMessage> expiredJwtException(ExpiredJwtException e) {
-		ReturnMessage messages = new ReturnMessage();
+	public ResponseEntity<RspMessage> expiredJwtException(ExpiredJwtException e) {
+		RspMessage messages = new RspMessage();
 		messages.setMessage(TokenEnum.TOKEN_ERROR_EXPIRED.getMessage());
+		messages.setErrorCode(TokenEnum.TOKEN_AUTH_FAIL.getCode());
 		return new ResponseEntity<>(messages, HttpStatus.REQUEST_TIMEOUT);
 	}
 
 	// 身分驗證有誤
 	@ExceptionHandler(AuthenticationException.class)
-	public ResponseEntity<ReturnMessage> AuthenticationException(AuthenticationException e) {
+	public ResponseEntity<RspMessage> authenticationException(AuthenticationException e) {
 		logger.error(e.getMessage());
-		ReturnMessage messages = new ReturnMessage();
+		RspMessage messages = new RspMessage();
 		messages.setMessage(TokenEnum.TOKEN_AUTH_FAIL.getMessage());
+		messages.setErrorCode(TokenEnum.TOKEN_AUTH_FAIL.getCode());
 		return new ResponseEntity<>(messages,TokenEnum.TOKEN_AUTH_FAIL.getHttpstatus()); 
 	}
 }

@@ -5,8 +5,17 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+/**
+ * <p>
+ * 目前這隻API:處理 exception 拋出的問題
+ *
+ * </p>
+ * 
+ * @author anthony
+ *
+ */
 @Controller
-public class ErrorController implements org.springframework.boot.web.servlet.error.ErrorController{
+public class ErrorController extends BaseController implements org.springframework.boot.web.servlet.error.ErrorController {
 	
 	 @RequestMapping("/error")
 	  public void handleError(HttpServletRequest request) throws Throwable {

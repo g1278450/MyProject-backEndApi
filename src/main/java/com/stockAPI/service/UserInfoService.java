@@ -7,8 +7,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.stockAPI.model.StockUser;
 import com.stockAPI.model.User;
+import com.stockAPI.model.entity.UserEntity;
 import com.stockAPI.repository.UserRepository;
 
 @Service
@@ -21,25 +21,24 @@ public class UserInfoService implements UserDetailsService {
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 
-	// 目前還沒要用到，先不實作
 	@Override
 	public UserDetails loadUserByUsername(String account) throws UsernameNotFoundException {
-		User user = userRepository.getDataByAccount(account);
-		return new StockUser(user);
+		UserEntity user = userRepository.getDataByAccount(account);
+		return new User(user);
 
 	}
 
-	public Integer addUser(User user) {
+	public Integer addUser(UserEntity user) {
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		Integer userId = userRepository.add(user);
 		return userId;
 	}
 
-	public StockUser getAccountInfo(String account) {
-		User user = userRepository.getDataByAccount(account);
+	public User getAccountInfo(String account) {
+		UserEntity user = userRepository.getDataByAccount(account);
 		// 資料內不可以含有密碼資訊
 		user.setPassword(null);
-		return new StockUser(user);
+		return new User(user);
 	}
 
 }

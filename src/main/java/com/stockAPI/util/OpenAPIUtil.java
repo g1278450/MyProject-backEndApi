@@ -10,7 +10,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-public class TWSIOpenAPIUtil {
+/**
+ * <p>
+ *  Util說明: 處理發送請求至外部網址
+ *  1.參數1:  請求的網址
+ *  2.參數2:  請求的方法 
+ *  3.參數3:  裝載的物件.class
+ * </p>
+ * 
+ * @author anthony
+ *
+ */
+public class OpenAPIUtil {
 
 	static Logger logger = LogManager.getLogger();
 
@@ -18,11 +29,11 @@ public class TWSIOpenAPIUtil {
 
 		try {
 			RestTemplate restTemplate = new RestTemplate();
-			
-			HttpHeaders headers = new HttpHeaders();		
+
+			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
-			
-			HttpEntity<String> httpEntity = new HttpEntity<String>(headers);
+
+			HttpEntity<String> httpEntity = new HttpEntity<>(headers);
 			ResponseEntity<T> responseEntity = restTemplate.exchange(url, method, httpEntity, t);
 			T result = responseEntity.getBody();
 			logger.info(responseEntity.getStatusCode());

@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.stockAPI.model.StockInfo;
-import com.stockAPI.service.TWSIOpenService;
+import com.stockAPI.model.entity.StockEntity;
+import com.stockAPI.service.OpenAPIService;
 
 @SpringBootTest
 class MyProjectStockApiApplicationTests {
@@ -15,13 +15,13 @@ class MyProjectStockApiApplicationTests {
 	static Logger logger = LogManager.getLogger();
 
 	@Autowired
-	TWSIOpenService tWSIOpenService;
+	OpenAPIService tWSIOpenService;
 
 	@Test
 	void contextLoads() {
-		StockInfo[] resultArray = tWSIOpenService.getDailyTranctionStockData();
+		StockEntity[] resultArray = tWSIOpenService.getDailyTranctionStockData();
 		if (resultArray != null) {
-			for (StockInfo data : resultArray) {
+			for (StockEntity data : resultArray) {
 				logger.info("name:" + data.getName());
 			}
 		} else {

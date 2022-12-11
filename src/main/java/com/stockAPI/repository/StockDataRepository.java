@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.stereotype.Repository;
 
-import com.stockAPI.model.StockInfo;
+import com.stockAPI.model.entity.StockEntity;
 
 @Repository
 public class StockDataRepository {
@@ -17,13 +17,13 @@ public class StockDataRepository {
 	@Autowired
 	NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-	public int[] batchAdd(StockInfo[] dailyTranctionStockData_array) {
+	public int[] batchAdd(StockEntity[] dailyTranctionStockData_array) {
 
-		List<StockInfo> dailyTranctionStockData_list = new ArrayList<StockInfo>();
+		List<StockEntity> dailyTranctionStockData_list = new ArrayList<StockEntity>();
 
 		dailyTranctionStockData_list.stream().forEach(System.out::println);
 
-		for (StockInfo dailyTranctionStockData : dailyTranctionStockData_array) {
+		for (StockEntity dailyTranctionStockData : dailyTranctionStockData_array) {
 			dailyTranctionStockData_list.add(dailyTranctionStockData);
 		}
 

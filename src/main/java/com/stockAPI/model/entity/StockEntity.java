@@ -1,4 +1,4 @@
-package com.stockAPI.model;
+package com.stockAPI.model.entity;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "stock_data")
-public class StockInfo {
+public class StockEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -80,11 +80,11 @@ public class StockInfo {
 	@JsonProperty(value = "Transaction")
 	private Integer transaction_count;
 
-	public StockInfo() {
+	public StockEntity() {
 
 	}
 
-	public StockInfo(Integer id, Timestamp create_time, String code, String name, Integer trade_volume,
+	public StockEntity(Integer id, Timestamp create_time, String code, String name, Integer trade_volume,
 			BigInteger trade_value, BigDecimal opening_price, BigDecimal highest_price, BigDecimal lowest_price,
 			BigDecimal closing_price, BigDecimal change_gap, Integer transaction_count) {
 		super();

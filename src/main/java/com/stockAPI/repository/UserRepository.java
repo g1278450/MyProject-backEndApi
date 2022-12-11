@@ -8,7 +8,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import com.stockAPI.model.User;
+import com.stockAPI.model.entity.UserEntity;
 
 @Repository
 public class UserRepository {
@@ -24,7 +24,7 @@ public class UserRepository {
 //
 //	private BeanPropertyRowMapper<User> rowMapper = new BeanPropertyRowMapper<>(User.class);
 
-	public Integer add(User user) {
+	public Integer add(UserEntity user) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		SqlParameterSource sqlParameterSource = new BeanPropertySqlParameterSource(user);
 		String sql = " INSERT INTO users ( ACCOUNT, NAME, PASSWORD ) " + " VALUE ( :account, :name, :password ) ";
@@ -33,7 +33,7 @@ public class UserRepository {
 
 	}
 
-	public User getDataByAccount(String account) {
+	public UserEntity getDataByAccount(String account) {
 		/**
 		 * JdbcTemplate 
 		 */

@@ -18,7 +18,7 @@ import com.stockAPI.service.UserInfoService;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	UserInfoService stockUserService;
+	UserInfoService userInfoService;
 
 	@Autowired
 	JWTCheckFilter jWTCheckFilter;
@@ -26,27 +26,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
-		auth.userDetailsService(stockUserService).passwordEncoder(new BCryptPasswordEncoder());
+		auth.userDetailsService(userInfoService).passwordEncoder(new BCryptPasswordEncoder());
 
-//		auth.userDetailsService(stockUserService).
-//		passwordEncoder(new BCryptPasswordEncoder());
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				// 測試用
-				.antMatchers("/user/testBlock").authenticated().antMatchers("/user/testUnblock").permitAll()
-
 				// 新增帳號用
-				.antMatchers("/user/create").hasAuthority("ADMIN") // 管理員可以新增使用者資料
+				// 管理員可以新增使用者資料
+				.antMatchers("/user/create").hasAuthority("ADMIN")
+				
+				// 登入
 				.antMatchers("/user/login").permitAll()
 				
-				// 查詢資料
+				// 查詢使用者資料 (目前前端尚未實作)
 				.antMatchers("/user/search").hasAnyAuthority("NORMAL","ADMIN")
 				
-				//取得股市資料
-				.antMatchers("/stock").hasAnyAuthority("NORMAL","ADMIN") 
+				// 取得股市資料
+				.antMatchers("/stock").hasAnyAuthority("NORMAL","ADMIN")
+				
 				.and()
 				
 				// 新增過濾器設定
@@ -75,10 +74,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 }
 
-/**
- * SpringSecurity 5.4.x以上新用法配置 为避免循环依赖，仅用于配置HttpSecurity Created by macro on
- * 2022/5/19.
- */
 //@Configuration
 //public class SecurityConfig {
 //
