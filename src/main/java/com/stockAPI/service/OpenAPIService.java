@@ -26,6 +26,7 @@ public class OpenAPIService {
 	/**
 	 * <p>
 	 * 1.從 https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL 取回JSON資料
+	 * (https://openapi.twse.com.tw)
 	 * 2.組裝成 List
 	 * </p>
 	 * 

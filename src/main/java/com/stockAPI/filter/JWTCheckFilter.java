@@ -20,6 +20,11 @@ import com.stockAPI.model.User;
 import com.stockAPI.model.entity.UserEntity;
 import com.stockAPI.service.JWTService;
 
+/**
+ * 一次請求只通過一次Filter
+ * @author anthony
+ *
+ */
 @Component
 public class JWTCheckFilter extends OncePerRequestFilter {
 
@@ -42,7 +47,7 @@ public class JWTCheckFilter extends OncePerRequestFilter {
 
 			Map<String, Object> loginUser = jwtService.parseToken(accessToken);
 
-			Integer userId = (Integer) loginUser.get("user_id");
+			Integer userId = (Integer) loginUser.get("userId");
 			String account = (String) loginUser.get("account");
 			String name = (String) loginUser.get("name");
 			String authority = (String) loginUser.get("authority");

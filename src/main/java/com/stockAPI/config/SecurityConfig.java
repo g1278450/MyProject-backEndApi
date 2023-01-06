@@ -43,14 +43,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				// 查詢使用者資料 (目前前端尚未實作)
 				.antMatchers("/user/search").hasAnyAuthority("NORMAL","ADMIN")
 				
-				// 取得股市資料
+				// 取得資料
 				.antMatchers("/stock").hasAnyAuthority("NORMAL","ADMIN")
 				
 				.and()
 				
-				// 新增過濾器設定
+				// 新增token過濾器
 				.addFilterBefore(jWTCheckFilter, UsernamePasswordAuthenticationFilter.class)
 				.sessionManagement()
+				
 				// 關閉HttpSession的建立狀態
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
