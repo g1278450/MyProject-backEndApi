@@ -15,7 +15,7 @@ import com.stockAPI.model.RspMessage;
 import io.jsonwebtoken.ExpiredJwtException;
 
 @RestControllerAdvice
-public class BaseHandle {
+public class BaseHandler {
 	
 	static Logger logger = LogManager.getLogger();
 
